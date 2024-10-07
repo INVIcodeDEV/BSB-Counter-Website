@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Counter App</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            background-color: #f0f0f0;
+            overflow: hidden; /* Verhindert Scrollen bei Konfetti */
+        }
+        h1 {
+            font-size: 48px;
+            margin-bottom: 20px;
+        }
+        .counter {
+            font-size: 64px;
+            margin-bottom: 30px;
+        }
+        button {
+            font-size: 24px;
+            padding: 10px 20px;
+            margin: 5px;
+            cursor: pointer;
+            border: none;
+            border-radius: 5px;
+            background-color: #007bff;
+            color: white;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        button:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+</head>
+<body>
+    <div class="footer-text">Made by INVICTUS</div>
+    <style>
+
+.footer-text {
+    position: fixed;
+    bottom: 10px; /* Abstand vom unteren Rand */
+    left: 10px; /* Abstand vom linken Rand */
+    background-color: rgba(255, 255, 255, 0.8); /* Hintergrundfarbe mit Transparenz */
+    padding: 5px 10px; /* Innenabstand */
+    border-radius: 5px; /* Abgerundete Ecken */
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.3); /* Schatten */
+}
+
+    </style>
+
+    <h1>"Entsprechend" Counter</h1>
+    <div class="counter" id="counter">0</div>
+    <div>
+        <button id="plusBtn">+</button>
+        <button id="minusBtn">-</button>
+        <button id="resetBtn">Zurücksetzen</button>
+    </div>
+
+    <script>
+        let count = 0;
+        let interval;
+
+        const counterDisplay = document.getElementById('counter');
+        const plusBtn = document.getElementById('plusBtn');
+        const minusBtn = document.getElementById('minusBtn');
+        const resetBtn = document.getElementById('resetBtn');
+
+        // Funktion zum Erhöhen des Zählers
+        function increment() {
+            if (count < 1000) {
+                count++;
+                updateDisplay();
+                if (count % 50 === 0 && count !== 0) {
+                    fireConfetti(); // Konfetti-Effekt bei jedem 50er Schritt auslösen
+                }
+            }
+        }
+
+        // Funktion zum Verringern des Zählers
+        function decrement() {
+            if (count > 0) {
+                count--;
+                updateDisplay();
+            }
+        }
+
+        // Mouse Down Event für Plus Button
+        plusBtn.addEventListener('mousedown', () => {
+            increment();
+            interval = setInterval(increment, 100); // Erhöht alle 100 ms
+        });
+
+        // Mouse Down Event für Minus Button
+        minusBtn.addEventListener('mousedown', () => {
+            decrement();
+            interval = setInterval(decrement, 100); // Verringert alle 100 ms
+        });
+
+        // Mouse Up und Mouse Leave Events
+        document.addEventListener('mouseup', () => {
+            clearInterval(interval);
+        });
+
+        plusBtn.addEventListener('mouseleave', () => {
+            clearInterval(interval);
+        });
+
+        minusBtn.addEventListener('mouseleave', () => {
+            clearInterval(interval);
+        });
+
+        resetBtn.addEventListener('click', () => {
+            count = 0;
+            updateDisplay();
+        });
+
+        function updateDisplay() {
+            counterDisplay.textContent = count;
+            minusBtn.disabled = count === 0; // Deaktiviert Minus-Button bei 0
+        }
+
+        function fireConfetti() {
+            confetti({
+                particleCount: 100,
+                spread: 70,
+                origin: { y: 0.6 }
+            });
+        }
+    </script>
+
+</body>
+</html>
