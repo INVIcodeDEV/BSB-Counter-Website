@@ -23,6 +23,10 @@
             font-size: 64px;
             margin-bottom: 30px;
         }
+        .percentage {
+            font-size: 24px;
+            margin-bottom: 30px;
+        }
         button {
             font-size: 24px;
             padding: 10px 20px;
@@ -32,6 +36,7 @@
             border-radius: 5px;
             background-color: #007bff;
             color: white;
+            transition: background-color 0.3s; /* Sanfter Übergang für den Hintergrund */
         }
         button:hover {
             background-color: #0056b3;
@@ -40,45 +45,90 @@
             background-color: #ccc;
             cursor: not-allowed;
         }
+        .footer-text {
+            position: fixed;
+            bottom: 10px; /* Abstand vom unteren Rand */
+            left: 10px; /* Abstand vom linken Rand */
+            background-color: rgba(255, 255, 255, 0.8); /* Hintergrundfarbe mit Transparenz */
+            padding: 5px 10px; /* Innenabstand */
+            border-radius: 5px; /* Abgerundete Ecken */
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.3); /* Schatten */
+            text-decoration: none; /* Entfernt die Unterstreichung */
+            color: #007bff; /* Farbe des Textes */
+            display: flex; /* Flexbox für bessere Anordnung */
+            align-items: center; /* Zentriert den Inhalt vertikal */
+        }
+        .footer-text:hover {
+            text-decoration: underline; /* Unterstreichung beim Hover */
+        }
+        .arrow {
+            margin-left: 5px; /* Abstand zwischen Text und Pfeil */
+            font-size: 16px; /* Größe des Pfeils */
+            transform: rotate(180deg); /* Drehen des Pfeils um 180 Grad */
+            display: inline-block; /* Notwendig für die Transformation */
+        }
+        .output-text {
+            margin-top: 20px;
+            font-size: 24px; /* Gleiche Schriftgröße wie die Prozentanzeige */
+            color: #333; /* Textfarbe */
+        }
+        .input-field {
+            font-size: 24px; /* Gleiche Schriftgröße wie die Prozentanzeige */
+            width: 100px; /* Breite des Eingabefeldes */
+            margin-top: 20px; /* Abstand zum Button */
+            padding: 5px; /* Innenabstand */
+            border: 1px solid #ccc; /* Rand des Eingabefeldes */
+            border-radius: 5px; /* Abgerundete Ecken */
+            text-align: center; /* Text zentrieren */
+        }
+
+        /* Media Queries für responsives Design */
+        @media (max-width: 600px) {
+            h1 {
+                font-size: 36px;
+            }
+            .counter {
+                font-size: 48px;
+            }
+            button {
+                font-size: 20px;
+                padding: 8px 16px;
+            }
+            .input-field {
+                width: 80%; /* Breite des Eingabefeldes auf kleineren Bildschirmen */
+            }
+        }
     </style>
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
 </head>
 <body>
-    <div class="footer-text">Made by INVICTUS</div>
-    <style>
-
-.footer-text {
-    position: fixed;
-    bottom: 10px; /* Abstand vom unteren Rand */
-    left: 10px; /* Abstand vom linken Rand */
-    background-color: rgba(255, 255, 255, 0.8); /* Hintergrundfarbe mit Transparenz */
-    padding: 5px 10px; /* Innenabstand */
-    border-radius: 5px; /* Abgerundete Ecken */
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.3); /* Schatten */
-}
-
-    </style>
-
-    <h1>"Entsprechend" Counter</h1>
-    <div class="counter" id="counter">0</div>
+    <a href="https://www.google.com/search?q=wie+viele+worte+sprechen+menschen+pro+tag&client=firefox-b-d&sca_esv=57f995de952bc4d6&ei=ThsGZ8K0EtD87_UPm5O9gQw&oq=Wie+viele+Worte+sprechen+menschen+pro+&gs_lp=Egxnd3Mtd2l6LXNlcnAiJldpZSB2aWVsZSBXb3J0ZSBzcHJlY2hlbiBtZW5zY2hlbiBwcm8gKgIIADIFECEYoAEyBRAhGKABMgUQIRigATIFECEYoAEyBRAhGKABSOYVUIwIWNEKcAF4AJABAJgBd6AB9AKqAQMzLjG4AQPIAQD4AQGYAgWgApoDwgIKEAAYsAMY1gQYR5gDAIgGAZAGCJIHAzMuMqAHzBA&sclient=gws-wiz-serp" class="footer-text">Made by Invictus<span class="arrow">➡️</span></a>
+    <h1>"Entsprechend" Counter V2</h1>
+    <div class="counter" id="counter" aria-live="polite">0</div>
+    <div class="percentage" id="percentage">0% der täglichen Worte</div>
     <div>
-        <button id="plusBtn">+</button>
-        <button id="minusBtn">-</button>
-        <button id="resetBtn">Zurücksetzen</button>
+        <button id="plusBtn" aria-label="Zähler erhöhen">+</button>
+        <button id="minusBtn" aria-label="Zähler verringern" disabled>-</button>
+        <button id="resetBtn" aria-label="Zähler zurücksetzen">Zurücksetzen</button>
     </div>
+    <input type="number" id="inputField" class="input-field" placeholder="Zahl eingeben" min="0" max="15669">
+    <div class="output-text">Der Mensch spricht ca. 15.000 bis 16.000 Wörter pro Tag.</div>
 
     <script>
         let count = 0;
+        const totalWordsPerDay = 15669; // Anzahl der Wörter pro Tag
         let interval;
 
         const counterDisplay = document.getElementById('counter');
+        const percentageDisplay = document.getElementById('percentage');
         const plusBtn = document.getElementById('plusBtn');
         const minusBtn = document.getElementById('minusBtn');
         const resetBtn = document.getElementById('resetBtn');
+        const inputField = document.getElementById('inputField');
 
         // Funktion zum Erhöhen des Zählers
         function increment() {
-            if (count < 1000) {
+            if (count < totalWordsPerDay) {
                 count++;
                 updateDisplay();
                 if (count % 50 === 0 && count !== 0) {
@@ -121,13 +171,35 @@
         });
 
         resetBtn.addEventListener('click', () => {
-            count = 0;
-            updateDisplay();
+            if (confirm("Möchten Sie den Zähler wirklich zurücksetzen?")) {
+                count = 0;
+                updateDisplay();
+            }
+        });
+
+        // Eingabe der Zahl aus dem Eingabefeld
+        inputField.addEventListener('change', () => {
+            const inputValue = parseInt(inputField.value, 10);
+            if (!isNaN(inputValue) && inputValue >= 0 && inputValue <= totalWordsPerDay) {
+                count = inputValue;
+                updateDisplay();
+            } else {
+                alert(`Bitte eine Zahl zwischen 0 und ${totalWordsPerDay} eingeben.`);
+                inputField.value = count; // Setze das Eingabefeld auf den aktuellen Wert
+            }
         });
 
         function updateDisplay() {
             counterDisplay.textContent = count;
             minusBtn.disabled = count === 0; // Deaktiviert Minus-Button bei 0
+            plusBtn.disabled = count >= totalWordsPerDay; // Deaktiviert Plus-Button bei 15669
+            updatePercentage();
+            inputField.value = count; // Aktualisiert das Eingabefeld mit dem aktuellen Wert
+        }
+
+        function updatePercentage() {
+            const percentage = ((count / totalWordsPerDay) * 100).toFixed(2);
+            percentageDisplay.textContent = `${percentage}% der täglichen Worte`;
         }
 
         function fireConfetti() {
@@ -138,6 +210,5 @@
             });
         }
     </script>
-
 </body>
 </html>
