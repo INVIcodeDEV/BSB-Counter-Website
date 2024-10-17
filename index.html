@@ -8,16 +8,52 @@
         body {
             font-family: Arial, sans-serif;
             display: flex;
-            flex-direction: column;
             align-items: center;
             justify-content: center;
             height: 100vh;
             background-color: #f0f0f0;
-            overflow: hidden; /* Verhindert Scrollen bei Konfetti */
+            overflow: hidden;
+        }
+        .main-container {
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            width: 80%; /* Breite der Hauptcontainer */
+        }
+        .input-table {
+            font-size: 24px;
+            margin-right: 20px; /* Abstand zwischen der Tabelle und dem Counter */
+            width: 300px; /* Breite der Tabelle */
+            border-collapse: collapse;
+        }
+        .input-table th, .input-table td {
+            padding: 10px;
+            border: 1px solid #ccc;
+            text-align: center;
+        }
+        .counter-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .text-field {
+            margin-left: 10px; /* Abstand zwischen Counter und Textfeld */
+            font-size: 20px;
+            padding: 10px;
+            width: 200px; /* Breite des Textfelds */
+            border: 1px solid #ccc;
+            border-radius: 5px;
         }
         h1 {
             font-size: 48px;
             margin-bottom: 20px;
+        }
+
+        h3 {
+
+            font-size: 20px;
+            text-align: center;
+
         }
         .counter {
             font-size: 64px;
@@ -36,7 +72,7 @@
             border-radius: 5px;
             background-color: #007bff;
             color: white;
-            transition: background-color 0.3s; /* Sanfter Übergang für den Hintergrund */
+            transition: background-color 0.3s;
         }
         button:hover {
             background-color: #0056b3;
@@ -47,42 +83,31 @@
         }
         .footer-text {
             position: fixed;
-            bottom: 10px; /* Abstand vom unteren Rand */
-            left: 10px; /* Abstand vom linken Rand */
-            background-color: rgba(255, 255, 255, 0.8); /* Hintergrundfarbe mit Transparenz */
-            padding: 5px 10px; /* Innenabstand */
-            border-radius: 5px; /* Abgerundete Ecken */
-            box-shadow: 0 0 5px rgba(0, 0, 0, 0.3); /* Schatten */
-            text-decoration: none; /* Entfernt die Unterstreichung */
-            color: #007bff; /* Farbe des Textes */
-            display: flex; /* Flexbox für bessere Anordnung */
-            align-items: center; /* Zentriert den Inhalt vertikal */
+            bottom: 10px;
+            left: 10px;
+            background-color: rgba(255, 255, 255, 0.8);
+            padding: 5px 10px;
+            border-radius: 5px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+            text-decoration: none;
+            color: #007bff;
+            display: flex;
+            align-items: center;
         }
         .footer-text:hover {
-            text-decoration: underline; /* Unterstreichung beim Hover */
+            text-decoration: underline;
         }
         .arrow {
-            margin-left: 5px; /* Abstand zwischen Text und Pfeil */
-            font-size: 16px; /* Größe des Pfeils */
-            transform: rotate(180deg); /* Drehen des Pfeils um 180 Grad */
-            display: inline-block; /* Notwendig für die Transformation */
+            margin-left: 5px;
+            font-size: 16px;
+            transform: rotate(180deg);
+            display: inline-block;
         }
         .output-text {
             margin-top: 20px;
-            font-size: 24px; /* Gleiche Schriftgröße wie die Prozentanzeige */
-            color: #333; /* Textfarbe */
+            font-size: 24px;
+            color: #333;
         }
-        .input-field {
-            font-size: 24px; /* Gleiche Schriftgröße wie die Prozentanzeige */
-            width: 100px; /* Breite des Eingabefeldes */
-            margin-top: 20px; /* Abstand zum Button */
-            padding: 5px; /* Innenabstand */
-            border: 1px solid #ccc; /* Rand des Eingabefeldes */
-            border-radius: 5px; /* Abgerundete Ecken */
-            text-align: center; /* Text zentrieren */
-        }
-
-        /* Media Queries für responsives Design */
         @media (max-width: 600px) {
             h1 {
                 font-size: 36px;
@@ -94,29 +119,53 @@
                 font-size: 20px;
                 padding: 8px 16px;
             }
-            .input-field {
-                width: 80%; /* Breite des Eingabefeldes auf kleineren Bildschirmen */
-            }
         }
     </style>
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
 </head>
 <body>
-    <a href="https://www.google.com/search?q=wie+viele+worte+sprechen+menschen+pro+tag&client=firefox-b-d&sca_esv=57f995de952bc4d6&ei=ThsGZ8K0EtD87_UPm5O9gQw&oq=Wie+viele+Worte+sprechen+menschen+pro+&gs_lp=Egxnd3Mtd2l6LXNlcnAiJldpZSB2aWVsZSBXb3J0ZSBzcHJlY2hlbiBtZW5zY2hlbiBwcm8gKgIIADIFECEYoAEyBRAhGKABMgUQIRigATIFECEYoAEyBRAhGKABSOYVUIwIWNEKcAF4AJABAJgBd6AB9AKqAQMzLjG4AQPIAQD4AQGYAgWgApoDwgIKEAAYsAMY1gQYR5gDAIgGAZAGCJIHAzMuMqAHzBA&sclient=gws-wiz-serp" class="footer-text">Made by Invictus<span class="arrow">➡️</span></a>
-    <h1>"Entsprechend" Counter V2</h1>
-    <div class="counter" id="counter" aria-live="polite">0</div>
-    <div class="percentage" id="percentage">0% der täglichen Worte</div>
-    <div>
-        <button id="plusBtn" aria-label="Zähler erhöhen">+</button>
-        <button id="minusBtn" aria-label="Zähler verringern" disabled>-</button>
-        <button id="resetBtn" aria-label="Zähler zurücksetzen">Zurücksetzen</button>
+    <a href="https://www.google.com" class="footer-text">Made by Invictus<span class="arrow">➡️</span></a>
+    <div class="main-container">
+        <!-- Tabelle links -->
+        <table class="input-table" id="historyTable">
+            <thead>
+                <tr>
+                    <th>Datum</th>
+                    <th>Zählerstand</th>
+                    <th>Prozent</th>
+                </tr>
+            </thead>
+            <tbody id="historyBody">
+                <!-- Gespeicherte Zählerstände werden hier hinzugefügt -->
+            </tbody>
+        </table>
+
+        <!-- Zähler und Titel -->
+        <div class="counter-container">
+            <h1>"Entsprechend" Counter V3</h1>
+            <div class="counter" id="counter" aria-live="polite">0</div>
+            <div class="percentage" id="percentage">0% der täglichen Worte</div>
+            <div>
+                <button id="plusBtn" aria-label="Zähler erhöhen">+</button>
+                <button id="minusBtn" aria-label="Zähler verringern" disabled>-</button>
+                <button id="resetBtn" aria-label="Zähler zurücksetzen">Zähler zurücksetzen</button>
+                <button id="resetTableBtn" aria-label="Tabelle zurücksetzen">Tabelle zurücksetzen</button>
+            </div>
+            <div class="output-text">Der Mensch spricht ca. 15.000 bis 16.000 Wörter pro Tag.</div>
+        </div>
+
+        <!-- Textfeld rechts neben dem Counter -->
+        <div class="text-field-container">
+            <h3>Neue Funktionen</h3>
+            <div class="text-field" id="placeholderText">Die Tabelle speichert nun (leider nur lokal) nach dem Zurücksetzen den Zwischenstand des Zählers.
+                Der Zähler kann jetzt außerdem mit den Pfeiltasten erhöht oder verringert werden. Das doppelte Textfeld wurde entfernt.
+            </div>
+        </div>
     </div>
-    <input type="number" id="inputField" class="input-field" placeholder="Zahl eingeben" min="0" max="15669">
-    <div class="output-text">Der Mensch spricht ca. 15.000 bis 16.000 Wörter pro Tag.</div>
 
     <script>
         let count = 0;
-        const totalWordsPerDay = 15669; // Anzahl der Wörter pro Tag
+        const totalWordsPerDay = 15669;
         let interval;
 
         const counterDisplay = document.getElementById('counter');
@@ -124,7 +173,37 @@
         const plusBtn = document.getElementById('plusBtn');
         const minusBtn = document.getElementById('minusBtn');
         const resetBtn = document.getElementById('resetBtn');
-        const inputField = document.getElementById('inputField');
+        const resetTableBtn = document.getElementById('resetTableBtn'); 
+        const historyTableBody = document.getElementById('historyBody');
+
+        // Funktion zum Speichern des Zählerstandes
+        function saveCount() {
+            const now = new Date().toLocaleString();
+            const percentage = ((count / totalWordsPerDay) * 100).toFixed(2);
+            localStorage.setItem('savedCount', count);
+            localStorage.setItem('savedDate', now);
+            localStorage.setItem('savedPercentage', percentage);
+
+            // Füge den neuen Eintrag in die Tabelle ein
+            addTableEntry(now, count, percentage);
+        }
+
+        // Funktion, um einen Eintrag in die Tabelle hinzuzufügen
+        function addTableEntry(date, count, percentage) {
+            const newRow = document.createElement('tr');
+            const dateCell = document.createElement('td');
+            const countCell = document.createElement('td');
+            const percentageCell = document.createElement('td');
+
+            dateCell.textContent = date;
+            countCell.textContent = count;
+            percentageCell.textContent = `${percentage}%`;
+
+            newRow.appendChild(dateCell);
+            newRow.appendChild(countCell);
+            newRow.appendChild(percentageCell);
+            historyTableBody.appendChild(newRow);
+        }
 
         // Funktion zum Erhöhen des Zählers
         function increment() {
@@ -132,7 +211,7 @@
                 count++;
                 updateDisplay();
                 if (count % 50 === 0 && count !== 0) {
-                    fireConfetti(); // Konfetti-Effekt bei jedem 50er Schritt auslösen
+                    fireConfetti();
                 }
             }
         }
@@ -145,19 +224,20 @@
             }
         }
 
+        // Initialisiere gespeicherten Zählerstand und Tabelle bei Seitenaufruf
+        loadSavedCounts();
+
         // Mouse Down Event für Plus Button
         plusBtn.addEventListener('mousedown', () => {
             increment();
-            interval = setInterval(increment, 100); // Erhöht alle 100 ms
+            interval = setInterval(increment, 250);
         });
 
-        // Mouse Down Event für Minus Button
         minusBtn.addEventListener('mousedown', () => {
             decrement();
-            interval = setInterval(decrement, 100); // Verringert alle 100 ms
+            interval = setInterval(decrement, 250);
         });
 
-        // Mouse Up und Mouse Leave Events
         document.addEventListener('mouseup', () => {
             clearInterval(interval);
         });
@@ -172,29 +252,38 @@
 
         resetBtn.addEventListener('click', () => {
             if (confirm("Möchten Sie den Zähler wirklich zurücksetzen?")) {
+                saveCount(); // Speichere den aktuellen Stand bevor er zurückgesetzt wird
                 count = 0;
                 updateDisplay();
             }
         });
 
-        // Eingabe der Zahl aus dem Eingabefeld
-        inputField.addEventListener('change', () => {
-            const inputValue = parseInt(inputField.value, 10);
-            if (!isNaN(inputValue) && inputValue >= 0 && inputValue <= totalWordsPerDay) {
-                count = inputValue;
-                updateDisplay();
-            } else {
-                alert(`Bitte eine Zahl zwischen 0 und ${totalWordsPerDay} eingeben.`);
-                inputField.value = count; // Setze das Eingabefeld auf den aktuellen Wert
+        // Event Listener für den neuen Reset-Tabellen-Button
+        resetTableBtn.addEventListener('click', () => {
+            if (confirm("Möchten Sie die Tabelle wirklich zurücksetzen?")) {
+                historyTableBody.innerHTML = ''; // Leere den Inhalt der Tabelle
+                localStorage.removeItem('savedCount'); // Optional: Lösche den gespeicherten Zählerstand
+                localStorage.removeItem('savedDate'); // Optional: Lösche das gespeicherte Datum
+                localStorage.removeItem('savedPercentage'); // Optional: Lösche das gespeicherte Prozent
             }
         });
 
+        // Funktion zum Laden und Anzeigen der gespeicherten Zählerstände
+        function loadSavedCounts() {
+            const savedCount = localStorage.getItem('savedCount');
+            const savedDate = localStorage.getItem('savedDate');
+            const savedPercentage = localStorage.getItem('savedPercentage');
+
+            if (savedCount && savedDate && savedPercentage) {
+                addTableEntry(savedDate, savedCount, savedPercentage);
+            }
+        }
+
         function updateDisplay() {
             counterDisplay.textContent = count;
-            minusBtn.disabled = count === 0; // Deaktiviert Minus-Button bei 0
-            plusBtn.disabled = count >= totalWordsPerDay; // Deaktiviert Plus-Button bei 15669
+            minusBtn.disabled = count === 0;
+            plusBtn.disabled = count >= totalWordsPerDay;
             updatePercentage();
-            inputField.value = count; // Aktualisiert das Eingabefeld mit dem aktuellen Wert
         }
 
         function updatePercentage() {
@@ -209,6 +298,15 @@
                 origin: { y: 0.6 }
             });
         }
+
+        // Event Listener für Pfeiltasten
+        document.addEventListener('keydown', (event) => {
+            if (event.key === 'ArrowUp') {
+                increment(); // Erhöhen des Zählers
+            } else if (event.key === 'ArrowDown') {
+                decrement(); // Verringern des Zählers
+            }
+        });
     </script>
 </body>
 </html>
